@@ -12,7 +12,7 @@ def main():
     terminal_parser.add_argument('-o', '--output', default=[], nargs='+')
 
     input_files = terminal_parser.get_list_of_input_files(terminal_command)
-    output_files = terminal_parser.get_list_of_output_files(terminal_command)
+    #output_files = terminal_parser.get_list_of_output_files(terminal_command)
 
     for file in input_files:
         data_processor = DataProcessor(file)
