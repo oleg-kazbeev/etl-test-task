@@ -16,18 +16,17 @@ def natural_keys(text):
 
 
 class CsvFilesParser:
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self):
         self._fieldnames = []
 
-    def get_sorted_list_with_fieldnames(self):
-        sorted_fieldnames = self._get_list_of_fieldnames()
+    def get_sorted_list_with_fieldnames(self, filename):
+        sorted_fieldnames = self._get_list_of_fieldnames(filename)
         sorted_fieldnames.sort(key=natural_keys)
         self._fieldnames = sorted_fieldnames
         return self._fieldnames
 
-    def _get_list_of_fieldnames(self):
-        with open(self.filename) as csv_file:
+    def _get_list_of_fieldnames(self, filename):
+        with open(filename) as csv_file:
             reader = csv.DictReader(csv_file)
-            fieldnames = reader.fieldnames
-        return fieldnames
+            self._fieldnames = reader.fieldnames
+        return self._fieldnames
