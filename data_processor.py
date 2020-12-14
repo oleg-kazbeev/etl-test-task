@@ -2,6 +2,7 @@ import os
 
 
 class DataProcessor:
+    # csv_files_parser =
     def __init__(self, filenames):
         self.filenames = filenames
         self.fields_titles_of_result_table = []
@@ -10,7 +11,7 @@ class DataProcessor:
         self._XML = '.xml'
         self._JSON = '.json'
 
-    def make_list_with_headers_of_result_file(self):
+    def find_file_with_min_amount_of_M_fields(self):
         for file in self.filenames:
             if self._is_it_csv_file(file):
                 pass
@@ -33,3 +34,5 @@ class DataProcessor:
     def _extract_extension_from_filename(self, file):
         _, self._file_extension = os.path.splitext(file)
         return self._file_extension
+
+
