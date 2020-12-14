@@ -3,7 +3,6 @@ from csv_files_parser import CsvFilesParser
 
 
 class DataProcessor:
-
     def __init__(self, filenames):
         self.filenames = filenames
         self._CSV = '.csv'
@@ -39,15 +38,14 @@ class DataProcessor:
     def _is_it_json_file(self, file):
         return self._extract_extension_from_filename(file) == self._JSON
 
+    def _compare_current_len_of_fieldnames_with_min(self, fieldnames_list_length):
+        return fieldnames_list_length < self._min_amount_of_fields
+
     def _set_new_min_amount_of_fields(self, fieldnames_list_length):
-        if self._compare_current_len_of_fieldnames_with_min(fieldnames_list_length):
-            self._min_amount_of_fields = fieldnames_list_length
+        self._min_amount_of_fields = fieldnames_list_length
 
     def _set_new_filename_with_min_fields(self, filename):
         self._filename_with_min_fields = filename
-
-    def _compare_current_len_of_fieldnames_with_min(self, fieldnames_list_length):
-        return fieldnames_list_length < self._min_amount_of_fields
 
     @staticmethod
     def _extract_extension_from_filename(file):
