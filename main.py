@@ -2,6 +2,7 @@ import sys
 
 from parsers.terminal_parser import TerminalParser
 from data_processor import DataProcessor
+from data_composer import DataComposer
 
 
 def main():
@@ -15,7 +16,10 @@ def main():
     output_files = terminal_parser.get_list_of_output_files(terminal_command)
 
     data_processor = DataProcessor(input_files)
-    file_with_min_amount_of_columns = data_processor.get_file_with_min_amount_of_fields()
+    file_with_min_col = data_processor.get_file_with_min_amount_of_columns()
+
+    data_composer = DataComposer(input_files, output_files)
+    data_composer.record_file_content_into_basic_result_file(file_with_min_col)
 
 
 if __name__ == '__main__':
