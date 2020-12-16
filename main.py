@@ -1,6 +1,6 @@
 import sys
 
-from terminal_parser import TerminalParser
+from parsers.terminal_parser import TerminalParser
 from data_processor import DataProcessor
 
 

@@ -1,5 +1,5 @@
 from extension_checker import ExtensionChecker
-from csv_files_parser import CsvFilesParser
+from parsers.csv_files_parser import CsvFilesParser
 
 
 class DataProcessor:
