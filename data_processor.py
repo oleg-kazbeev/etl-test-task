@@ -15,7 +15,7 @@ class DataProcessor:
 
             if extension_checker.is_it_csv_file():
                 csv_parser = CsvFilesParser()
-                self._columns_of_result_file = csv_parser.get_sorted_list_with_fieldnames(filename)
+                self._columns_of_result_file = csv_parser.get_sorted_list_with_columns(filename)
 
                 if self._compare_current_len_of_columns_with_min():
                     self._set_new_min_amount_of_columns()
