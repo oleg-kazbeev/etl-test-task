@@ -1,7 +1,8 @@
 import sys
 
-from terminal_parser import TerminalParser
+from parsers.terminal_parser import TerminalParser
 from data_processor import DataProcessor
+from data_composer import DataComposer
 
 
 def main():
@@ -14,17 +15,15 @@ def main():
     input_files = terminal_parser.get_list_of_input_files(terminal_command)
     output_files = terminal_parser.get_list_of_output_files(terminal_command)
 
-    for file in input_files:
-        data_processor = DataProcessor(file)
+    data_processor = DataProcessor(input_files)
+    file_with_min_col = data_processor.get_file_with_min_amount_of_columns()
+    columns_of_result_file = data_processor.get_sorted_columns_of_result_file()
 
-        if data_processor.is_it_csv_file():
-            print("It is a csv file")
-
-        if data_processor.is_it_xml_file():
-            print("It is a xml file")
-
-        if data_processor.is_it_json_file():
-            print("It is a json file")
+    data_composer = DataComposer(input_files, output_files)
+    data_composer.record_first_file_content_into_basic_result_file(file_with_min_col,
+                                                                   columns_of_result_file)
+    data_composer.record_leftovers_files_into_basic_result(columns_of_result_file)
+    data_composer.sort_basic_results_file_content()
 
 
 if __name__ == '__main__':

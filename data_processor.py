@@ -1,27 +1,56 @@
-import os
+from extension_checker import ExtensionChecker
+from parsers.csv_files_parser import CsvFilesParser
+from parsers.json_files_parser import JsonFilesParser
+from parsers.xml_files_parser import XmlFilesParser
 
 
 class DataProcessor:
-    def __init__(self, filename):
-        self.filename = filename
-        self.fields_titles_of_result_table = []
-        self._file_extension = ''
-        self._CSV = '.csv'
-        self._XML = '.xml'
-        self._JSON = '.json'
+    def __init__(self, filenames):
+        self.filenames = filenames
+        self._min_amount_of_fields = 2147483647
+        self._file_with_min_amount_of_columns = ""
+        self._columns_of_result_file = []
 
-    def _extract_extension_from_filename(self):
-        _, self._file_extension = os.path.splitext(self.filename)
-        return self._file_extension
+    def get_file_with_min_amount_of_columns(self):
 
-    def is_it_xml_file(self):
-        return self._extract_extension_from_filename() == self._XML
+        for filename in self.filenames:
+            extension_checker = ExtensionChecker(filename)
 
-    def is_it_csv_file(self):
-        return self._extract_extension_from_filename() == self._CSV
+            if extension_checker.is_it_csv_file():
+                csv_parser = CsvFilesParser(filename)
+                columns_header = csv_parser.get_sorted_columns_header()
 
-    def is_it_json_file(self):
-        return self._extract_extension_from_filename() == self._JSON
+                if self._compare_current_len_of_columns_with_min(columns_header):
+                    self._set_new_file_with_min_columns(filename)
+                    self._set_new_columns_and_amount_of_result_file(columns_header)
 
-    def define_table_fields_of_result_file(self):
-        pass
+            elif extension_checker.is_it_xml_file():
+                xml_parser = XmlFilesParser(filename)
+                columns_header = xml_parser.get_sorted_list_of_columns_header()
+
+                if self._compare_current_len_of_columns_with_min(columns_header):
+                    self._set_new_file_with_min_columns(filename)
+                    self._set_new_columns_and_amount_of_result_file(columns_header)
+
+            elif extension_checker.is_it_json_file():
+                json_parser = JsonFilesParser(filename)
+                columns_header = json_parser.get_sorted_columns_header()
+
+                if self._compare_current_len_of_columns_with_min(columns_header):
+                    self._set_new_file_with_min_columns(filename)
+                    self._set_new_columns_and_amount_of_result_file(columns_header)
+
+        return self._file_with_min_amount_of_columns
+
+    def get_sorted_columns_of_result_file(self):
+        return self._columns_of_result_file
+
+    def _compare_current_len_of_columns_with_min(self, columns):
+        return len(columns) < self._min_amount_of_fields
+
+    def _set_new_columns_and_amount_of_result_file(self, columns):
+        self._columns_of_result_file = columns
+        self._min_amount_of_fields = len(self._columns_of_result_file)
+
+    def _set_new_file_with_min_columns(self, filename):
+        self._file_with_min_amount_of_columns = filename
