@@ -20,7 +20,8 @@ def main():
     columns_of_result_file = data_processor.get_sorted_columns_of_result_file()
 
     data_composer = DataComposer(input_files, output_files)
-    data_composer.record_first_file_content_into_basic_result_file(file_with_min_col, columns_of_result_file)
+    data_composer.record_first_file_content_into_basic_result_file(file_with_min_col,
+                                                                   columns_of_result_file)
     data_composer.record_leftovers_files_into_result(columns_of_result_file)
 
 

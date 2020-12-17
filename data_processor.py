@@ -1,6 +1,7 @@
 from extension_checker import ExtensionChecker
 from parsers.csv_files_parser import CsvFilesParser
 from parsers.json_files_parser import JsonFilesParser
+from parsers.xml_files_parser import XmlFilesParser
 
 
 class DataProcessor:
@@ -24,7 +25,8 @@ class DataProcessor:
                     self._set_new_columns_and_amount_of_result_file(columns_header)
 
             elif extension_checker.is_it_xml_file():
-                pass
+                xml_parser = XmlFilesParser(filename)
+                print(xml_parser.get_sorted_list_of_columns_header())
 
             elif extension_checker.is_it_json_file():
                 json_parser = JsonFilesParser(filename)

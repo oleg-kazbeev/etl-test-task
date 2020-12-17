@@ -49,6 +49,7 @@ class DataComposer:
         with open(self._basic_results, 'w') as result_file:
             writer = csv.DictWriter(result_file,
                                     fieldnames=columns)
+            writer.writeheader()
 
             if extension_checker.is_it_csv_file():
                 _record_csv_file_into_results(filename, writer, columns)
