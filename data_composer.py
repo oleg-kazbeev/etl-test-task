@@ -1,5 +1,7 @@
 import csv
 import json
+from xml.etree import ElementTree
+
 from extension_checker import ExtensionChecker
 
 
@@ -15,8 +17,8 @@ def _record_json_file_into_results(filename, writer, columns):
 
 
 def _record_csv_file_into_results(filename, writer, columns):
-    with open(filename, 'r') as infile:
-        reader = csv.DictReader(infile)
+    with open(filename, 'r') as csv_file:
+        reader = csv.DictReader(csv_file)
 
         for row in reader:
             for key in row.copy().keys():
@@ -24,6 +26,20 @@ def _record_csv_file_into_results(filename, writer, columns):
                     row.pop(key)
 
             writer.writerow(row)
+
+
+def _record_xml_file_into_results(filename, writer, columns):
+    with open(filename, 'r') as xml_file:
+        tree = ElementTree.parse(xml_file)
+        root = tree.getroot()
+        row = {}
+
+        for obj in root.findall('objects/object'):
+            column_name = obj.attrib['name']
+            if column_name in columns:
+                row[column_name] = obj.find('value').text
+
+    writer.writerow(row)
 
 
 class DataComposer:
@@ -44,6 +60,9 @@ class DataComposer:
                 elif extension_checker.is_it_json_file():
                     _record_json_file_into_results(filename, writer, columns)
 
+                elif extension_checker.is_it_xml_file():
+                    _record_xml_file_into_results(filename, writer, columns)
+
     def record_first_file_content_into_basic_result_file(self, filename, columns):
         extension_checker = ExtensionChecker(filename)
         with open(self._basic_results, 'w') as result_file:
@@ -56,6 +75,9 @@ class DataComposer:
 
             elif extension_checker.is_it_json_file():
                 _record_json_file_into_results(filename, writer, columns)
+
+            elif extension_checker.is_it_xml_file():
+                _record_xml_file_into_results(filename, writer, columns)
 
         self._remove_recorded_file_from_input_list(filename)
 

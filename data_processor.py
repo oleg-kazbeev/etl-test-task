@@ -26,12 +26,15 @@ class DataProcessor:
 
             elif extension_checker.is_it_xml_file():
                 xml_parser = XmlFilesParser(filename)
-                print(xml_parser.get_sorted_list_of_columns_header())
+                columns_header = xml_parser.get_sorted_list_of_columns_header()
+
+                if self._compare_current_len_of_columns_with_min(columns_header):
+                    self._set_new_file_with_min_columns(filename)
+                    self._set_new_columns_and_amount_of_result_file(columns_header)
 
             elif extension_checker.is_it_json_file():
                 json_parser = JsonFilesParser(filename)
                 columns_header = json_parser.get_sorted_columns_header()
-                print(columns_header)
 
                 if self._compare_current_len_of_columns_with_min(columns_header):
                     self._set_new_file_with_min_columns(filename)
