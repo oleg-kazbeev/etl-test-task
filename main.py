@@ -24,6 +24,7 @@ def main():
                                                                    columns_of_result_file)
     data_composer.record_leftovers_files_into_basic_result(columns_of_result_file)
     data_composer.sort_basic_results_file_content()
+    data_composer.record_advanced_results_based_on_basic()
 
 
 if __name__ == '__main__':
