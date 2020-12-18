@@ -155,7 +155,4 @@ $ python3 main.py -i csv_data1.csv csv_data2.csv json_data.json xml_data.xml -o 
 ```
 $ python3 main.py -input csv_data1.csv csv_data2.csv json_data.json xml_data.xml -output basic_results.tsv advanced_results.tsv
 ```
-<<<<<<< HEAD
 
-=======
->>>>>>> ADVANCED
